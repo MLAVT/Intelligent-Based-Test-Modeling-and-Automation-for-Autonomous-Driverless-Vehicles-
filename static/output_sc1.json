@@ -1,0 +1,68 @@
+{
+    "name": "Output",
+    "children": [
+        {
+            "name": "Lane Change",
+            "children": [
+                {
+                    "name": "Left Lane Change",
+                    "children": [
+                        {
+                            "name": "No"
+                        }
+                    ]
+                },
+                {
+                    "name": "Right Lane Change",
+                    "children": [
+                        {
+                            "name": "No"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Vehicle Movement",
+            "children": [
+                {
+                    "name": "Traffic Light Status",
+                    "children": [
+                        {
+                            "name": "Go"
+                        }
+                    ]
+                },
+                {
+                    "name": "Pedestrian Proximity",
+                    "children": [
+                        {
+                            "name": "Stop"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Vehicle Signals",
+            "children": [
+                {
+                    "name": "Turn Signal",
+                    "children": [
+                        {
+                            "name": "No Indication"
+                        }
+                    ]
+                },
+                {
+                    "name": "Horn Use",
+                    "children": [
+                        {
+                            "name": "No"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

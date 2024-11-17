@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Route Planner with Checkpoints</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #808080; /* Changed to gray */
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #app-titles {
+      display: flex;
+      gap: 15px;
+    }
+
+    #app-titles span {
+      cursor: pointer;
+    }
+
+    #sso-creds {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+    }
+
+    #sso-creds span {
+      margin-right: 20px;
+    }
+
+    #map {
+      height: 500px;
+      width: 100%;
+      border: 2px solid #ccc;
+      margin-top: 10px;
+    }
+
+    #controls, #trip-info {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    input, button {
+      padding: 8px;
+      margin: 5px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #notification {
+      text-align: center;
+      padding: 10px;
+      background-color: #07c1ff1e;
+      color: #333;
+      cursor: pointer;
+    }
+
+    #checkpoint-details {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      background-color: white;
+      border: 1px solid #d1d1d1;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    #button-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px;
+    }
+  </style>
+  
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjW2z9CLWbEPphBu_kMGNz8hIoy_Ezw9Q&libraries=places,geometry&callback=initMap" async defer></script>
+  <script>
+    function redirectToCheckpointDetails() {
+      const latitude = 37.3382; // Replace with actual latitude value if available dynamically
+      const longitude = -121.8863; // Replace with actual longitude value if available dynamically
+      window.location.href = `/checkpoints_details?latitude=${latitude}&longitude=${longitude}`;
+    }
+  </script>
+  
+</head>
+<body>
+  <header>
+    <div id="app-titles">
+      <span>Route</span>
+      <span>Route-Trip</span>
+      <span>AI-Testing Tool</span>
+      <span>Carla</span>
+    </div>
+    <div id="login-area">
+      <form id="login-form" onsubmit="loginUser(event)">
+          <input type="email" id="email" placeholder="Enter email" required>
+          <input type="password" id="password" placeholder="Password" required>
+          <button type="submit">Login</button>
+          <button type="button" onclick="showRegistrationForm()">Sign Up</button>
+      </form>
+    </div>
+  </header>
+  
+  <div id="trip-info">
+    <p id="origin-address">Origin address: </p>
+    <p id="destination-address">Destination address: </p>
+    <p id="distance">Distance: </p>
+  </div>
+
+  <div id="controls">
+    <label for="origin">Origin: <input id="origin" type="text" placeholder="Enter start location" /></label>
+    <label for="destination">Destination: <input id="destination" type="text" placeholder="Enter destination" /></label>
+    <button onclick="calculateRoute()">Get Route</button>
+  </div>
+
+  <div id="notification">
+    <span id="delete-trip">Delete Trip 🗑️</span>
+  </div>
+  
+  
+
+  <div id="map">Map loading...</div>
+
+  <div id="checkpoint-details">
+    <img id="street-view" src="" alt="Street View Image">
+    <h3>Checkpoint Details</h3>
+    <p id="checkpoint-location">Location address:</p>
+    <p id="intersection-type">Intersection Type:</p>
+    <p id="intersection-street">Intersection Street:</p>
+    <p id="status">Status:</p>
+    <p id="longitude"></p>
+    <p id="latitude"></p>
+
+    <div id="button-container">
+      <button onclick="window.location.href='/checkpoints_details?id={{ checkpoint.id }}'" class="btn btn-primary">View Checkpoints</button>
+
+
+      <button onclick="closeCheckpointDetails()">Close</button>
+      <button id="delete-checkpoint-btn">Delete Checkpoint</button>
+      
+    </div>
+  </div>
+
+  <div id="registration-form" style="display: none;">
+    <form onsubmit="registerUser(event)">
+      <input type="email" id="reg-email" placeholder="Enter email" required>
+      <input type="password" id="reg-password" placeholder="Enter new password" required>
+      <button type="submit">Register</button>
+      <button type="button" onclick="hideRegistrationForm()">Cancel</button>
+    </form>
+  </div>
+
+  <script>
+    function redirectToTestCases() {
+      window.location.href = "/checkpoints_details"; // Modify if additional query parameters are required
+    }
+  </script>
+  
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

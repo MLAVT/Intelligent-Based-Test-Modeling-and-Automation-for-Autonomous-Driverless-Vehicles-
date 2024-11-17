@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trip Details</title>
+</head>
+<body>
+  <h1>Trip: {{ trip.name }}</h1>
+  <p><strong>Origin:</strong> {{ trip.origin }}</p>
+  <p><strong>Destination:</strong> {{ trip.destination }}</p>
+  <p><strong>Distance:</strong> {{ trip.distance }}</p>
+
+  <h2>Checkpoints</h2>
+  <ul>
+    {% for checkpoint in checkpoints %}
+      <li>
+        <strong>Address:</strong> {{ checkpoint.location_address }}<br>
+        <strong>Latitude:</strong> {{ checkpoint.latitude }}<br>
+        <strong>Longitude:</strong> {{ checkpoint.longitude }}<br>
+        <strong>Intersection Type:</strong> {{ checkpoint.intersection_type }}<br>
+        <strong>Intersection Street:</strong> {{ checkpoint.intersection_street }}
+      </li>
+    {% else %}
+      <p>No checkpoints added for this trip.</p>
+    {% endfor %}
+  </ul>
+
+  <a href="/">Back to all trips</a>
+</body>
+</html>

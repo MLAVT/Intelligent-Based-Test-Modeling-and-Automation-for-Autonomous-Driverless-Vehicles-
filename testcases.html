@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>View Checkpoints Details</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.css">
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.js"></script>
+
+
+  <style>
+
+    .sticky-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .checkpoint-image-thumble {
+      max-width: 500px;
+      
+    }
+
+    .table {
+      width: 100%;
+      font-size: 14px;
+    }
+
+    .vertical-table {
+
+      width: 100%;
+
+    }
+
+    .vertical-table th, .vertical-table td {
+      border:none;
+    }
+
+    /* .vertical-table th, .vertical-table td {
+      text-align: left;
+    } */
+    
+    .vertical-table-caption {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    #wrapper {
+      position: relative;
+      font-size: 12px;
+    }
+
+    .branch {
+      position: relative;
+      margin-left: 190px;
+    }
+
+    .branch:before {
+      content: "";
+      width: 20px;
+      border-top: 2px solid #715613;
+      position: absolute;
+      left: -40px;
+      top: 50%;
+      margin-top: 1px;
+    }
+
+    .entry {
+      position: relative;
+      min-height: 40px;
+    }
+    
+    .entry:before {
+      content: "";
+      height: 100%;
+      border-left: 2px solid #000000;
+      position: absolute;
+      left: -20px;
+    }
+    .entry:after {
+      content: "";
+      width: 15px;
+      border-top: 2px solid #000000;
+      position: absolute;
+      left: -20px;
+      top: 50%;
+      margin-top: 1px;
+    }
+
+    .entry:first-child:before {
+      width: 10px;
+      height: 50%;
+      top: 50%;
+      margin-top: 2px;
+      border-radius: 10px 0 0 0;
+    }
+
+    .entry:first-child:after {
+      height: 10px;
+      border-radius: 10px 0 0 0;
+    }
+
+    .entry:last-child:before {
+      width: 10px;
+      height: 50%;
+      border-radius: 0 0 0 10px;
+    }
+
+    .entry:last-child:after {
+      height: 10px;
+      border-top: none;
+      border-bottom: 2px solid #000000;
+      border-radius: 0 0 0 10px;
+      margin-top: -9px;
+    }
+
+    .entry.sole:before {
+      display: none;
+    }
+
+    .entry.sole:after {
+      width: 20px;
+      height: 0;
+      margin-top: 1px;
+      border-radius: 0;
+    }
+
+    .label {
+      display: block;
+      min-width: 150px;
+      padding: 5px 10px;
+      line-height: 20px;
+      text-align: center;
+      border: 2px solid #7f7e7c;
+      border-radius: 5px;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      margin-top: -15px;
+    }
+
+    .clickable {
+      cursor: pointer;
+    }
+
+    /* Custom CSS for loading page */
+    .loading-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 10vh;
+      text-align: center;
+    }
+
+    .loading-message{ margin-top: 2.5%;}
+
+    .modal-custom {
+      max-width: 1500px; /* Adjust the width as per your requirements */
+    }
+
+    .modal-height {
+
+      max-height: 800px; 
+      overflow-y: auto;
+
+    }
+
+    #testCaseContext td, #testCaseInput td {
+
+      /* font-size: 12px; */
+      padding: 0.35rem;
+      display: inline-block;
+      
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="row">
+      
+      <div class="col how-img">
+        
+        <table class="table vertical-table">
+          <thead>
+            <tr>
+              <th class="vertical-table-caption" colspan="2">Checkpoint details</th>
+            </tr>
+          </thead>
+          <tbody id="checkpointInfo">
+            <tr>
+    
+              <th scope="row">Location address:</th>
+              <td>{{checkpoint.location_address}}</td>
+            </tr>
+            
+            <!-- <tr>
+    
+              <th scope="row">Created at:</th>
+              <td>{{checkpoint.created_at.strftime('%I:%M %p %m/%d/%Y')}}</td>
+    
+            </tr> -->
+
+            <tr>
+    
+              <th scope="row">Intersection Type:</th>
+              <td>{{checkpoint.intersection_type.value}}</td>
+    
+            </tr>
+
+            <tr>
+    
+              <th scope="row">Status:</th>
+              <td>{{checkpoint.status.value}}</td>
+    
+            </tr>
+    
+          </tbody>
+    
+        </table>
+
+        <img class="checkpoint-image-thumble img-fluid" src="{{checkpoint.image_url}}" />
+
+        <table class="table vertical-table">
+          <thead>
+            <tr>
+              <th class="vertical-table-caption" colspan="2">Steps</th>
+            </tr>
+          </thead>
+          <tbody id="checkpointInfo">
+            <tr>
+              <th></th>
+              <th class="text-center w-25">Status</th>
+              <!-- <th class="text-center w-25">Result</th> -->
+            </tr>
+            <tr>
+              <td>Object detection</td>
+              <td class="text-center">
+                
+                {% if status == 1 %}
+
+                <i class="fa-solid fa-forward clickable statusTrigger" data-id="0"></i>
+
+                {% else %}
+                
+                  Completed
+                
+                {% endif %}
+                
+              </td>
+              <!-- <td class="text-center"><i class="fa fa-download mr-2" aria-hidden="true"></i> <i class="fa-solid fa-eye"></i></td> -->
+            </tr>
+            <tr>
+              <td>Send data to AI Testing Tool</td>
+              <td class="text-center">
+                
+                {% if status == 2 %}
+
+                  <i class="fa-solid fa-forward clickable statusTrigger" data-id="1"></i>
+
+                {% elif status > 2 %}
+
+                  Completed
+
+                {% else %}
+                
+                  -
+                
+                {% endif %}  
+                
+              </td>
+              <!-- <td class="text-center"><i class="fa fa-download mr-2" aria-hidden="true"></i> <i class="fa-solid fa-eye"></i></td> -->
+            </tr>
+            <tr>  
+              <td>Generate Test Cases</td>
+              <td class="text-center">
+                
+                {% if status == 3 %}
+
+                  <i class="fa-solid fa-forward clickable statusTrigger" data-id="2"></i>
+
+                {% elif status > 3 %}
+
+                  Completed
+
+                {% else %}
+
+                  -
+
+                {% endif %}  
+              
+                </td>
+              <!-- <td class="text-center"><i class="fa fa-download mr-2" aria-hidden="true"></i> <i class="fa-solid fa-eye"></i></td> -->
+            </tr>
+            <tr>  
+              <td>Retrieve Test Cases</td>
+              <td class="text-center">
+                
+                {% if status == 4 %}
+
+                  <i class="fa-solid fa-forward clickable statusTrigger" data-id="3"></i>
+
+                {% elif status > 4 %}
+
+                  Completed
+
+                {% else %}
+
+                  -
+
+                {% endif %}   
+                
+                
+              </td>
+              <!-- <td class="text-center"><i class="fa fa-download mr-2" aria-hidden="true"></i> <i class="fa-solid fa-eye"></i></td> -->
+            </tr>
+    
+          </tbody>
+    
+        </table>
+
+        <table class="table vertical-table">
+          <thead>
+            <tr>
+              <th class="vertical-table-caption" colspan="3">Semantic Trees</th>
+            </tr>
+          </thead>
+          <tbody id="checkpointInfo">
+
+            {% if context %}
+
+            <tr>
+              <th></th>
+              <th class="text-center w-25">View Tree</th>
+              <th class="text-center w-25">Download JSON</th>
+            </tr>
+            <tr>
+              <td>Context</td>
+              <td class="text-center"><i id="contextTreeTrigger" class="fa-solid fa-eye clickable"></i></td>
+              <td class="text-center"><a href="{{ context[0] }}" target="_blank"><i class="fa fa-download clickable" aria-hidden="true"></i></a></td>
+            </tr>
+            <tr>
+              <td>Input</td>
+              <td class="text-center"><i id="inputTreeTrigger" class="fa-solid fa-eye clickable"></i></td>
+              <td class="text-center"><a href="{{ input[0] }}" target="_blank"><i class="fa fa-download clickable" aria-hidden="true"></i></a></td>
+            </tr>
+            <tr>  
+              <td>Output</td>
+              <td class="text-center"><i id="outputTreeTrigger" class="fa-solid fa-eye clickable"></i></td>
+              <td class="text-center"><a href="{{ output[0] }}" target="_blank"><i class="fa fa-download clickable" aria-hidden="true"></i></a></td>
+            </tr>
+            
+            {% endif %}
+
+          </tbody>
+    
+        </table>
+
+        {% if not context %}
+
+        <div class="alert alert-info" role="alert" id="no-semantic-trees">
+          No semantric trees to show.
+        </div>
+
+        {% endif %}
+
+      </div>
+
+      <div class="col-md-1"></div>
+
+      <div class="col-md-5">
+
+        
+        <table class="table table-striped">
+          
+          <thead>
+            <tr>
+              <th class="vertical-table-caption" colspan="5">Test Cases</th>
+            </tr>
+          </thead>
+
+          <tbody id="testcases"></tbody>
+    
+        </table>
+
+        <div class="alert alert-info" role="alert" id="no-records-message" style="display: none;">
+          No test cases to show.
+        </div>
+
+        <div id="pagination-container">
+
+          
+            <ul class="pagination justify-content-center pagination-sm">
+              <li class="page-item" id="li-prev">
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+              </li>
+              <li class="page-item" id="li-1"><a class="page-link" href="#" id="link1">1</a></li>
+              <li class="page-item" id="li-2"><a class="page-link" href="#" id="link2">2</a></li>
+              <li class="page-item" id="li-3"><a class="page-link" href="#" id="link3">3</a></li>
+              <li class="page-item" id="li-next">
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+            </ul>
+          
+        
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Context Modal -->
+  <div class="modal fade" id="contextTree" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-custom" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Context tree</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body modal-height">
+          <div id="wrapper"><span class="label">Context</span> {{ context[1] | safe }} </div>
+        </div>
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Output Modal -->
+  <div class="modal fade" id="outputTree" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-custom" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Output tree</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body modal-height">
+          <div id="wrapper"><span class="label">Output</span> {{ output[1] | safe }} </div>
+        </div>
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="inputTree" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-custom" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Input tree</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body modal-height">
+          <div id="wrapper"><span class="label">Input</span> {{ input[1] | safe }}</div>
+        </div>
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="statusLoading" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="loading-page">
+            <span class="spinner-border text-primary" role="status"></span>
+            <span class="loading-message">Loading ...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="showDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="showDetailsTitle">Test Case Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <table class="table vertical-table table-striped">
+
+            <tbody id="testCaseContext"></tbody> <tbody id="testCaseInput"></tbody>
+      
+          </table>
+          
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JavaScript dependencies -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+
+    // Array of processes to be executed
+    const processes = [
+      
+      {
+          message: 'Detecting objets traffic objects ...',
+          url: '/checkpoint/{{checkpoint.id}}/detect',
+      },
+      { 
+          message: 'Sending data to AI Testing Tools ...',
+          url: '/checkpoint/{{checkpoint.id}}/send', 
+      },
+      {
+          message: 'Generating testing cases AI Testing Tools ...',
+          url: '/checkpoint/{{checkpoint.id}}/generate',
+      },
+      {
+          message: 'Retrieving testing cases from AI Testing Tools ...',
+          url: '/checkpoint/{{checkpoint.id}}/retrieve',
+      } 
+    ];
+
+    $(document).ready(function() {
+
+      // Your list data
+      var listData = []; 
+      
+      {% if testcases %}
+
+        listData = {{ testcases | tojson }};
+
+      {% endif %}
+
+      console.log( listData );
+
+      var currentPage = 1;
+      
+      var itemsPerPage = 15; // Number of items to display per page
+      var totalPages = Math.ceil( listData.length / itemsPerPage ); // Calculate total pages
+      
+      // Function to render the table rows based on the current page
+      function renderTableRows( page ) {
+
+        var start = ( page - 1 ) * itemsPerPage;
+        var end = start + itemsPerPage;
+        var tableRows = "";
+        var aux = "";
+
+        $("#li-2").removeClass( "disabled" );
+
+        if( page == 1 ) {
+
+          $("#li-prev").addClass( "disabled" );
+          $("#li-1").addClass( "disabled" );
+
+        } else if( page == totalPages ) { 
+
+          $("#li-next").addClass( "disabled" );
+          $("#li-3").addClass( "disabled" );
+
+        } else { 
+
+          $("#li-prev").removeClass( "disabled" );
+          $("#li-1").removeClass( "disabled" );
+
+          $("#li-next").removeClass( "disabled" );
+          $("#li-3").removeClass( "disabled" );
+
+          $("#li-2").addClass( "disabled" );
+
+        }
+
+        if( page > 1 && page < totalPages ) {
+
+          $("#link1").text( page - 1 );
+          $("#link2").text( page );
+          $("#link3").text( page + 1);
+        
+        }
+        
+        for ( var i = start; i < end; i++ ) {
+
+          if ( listData[i])  {
+
+            tableRows += "<tr>";
+            tableRows += "<td> Test Case " + listData[i].subkey + "</td>";
+            // tableRows += "<td>" + listData[i].contextDict['Checkpoint Type'] + "</td>";
+            // tableRows += "<td>" + listData[i].inputDict['Time'] + "</td>";
+            tableRows += '<td class="text-center"><i class="fa fa-eye clickable detailsTrigger" data-id="' + i + '"></i></td>';
+            tableRows += '<td class="text-center"><a href="http://localhost:5000/checkpoint/{{checkpoint.id}}/generate_carla_script/'+listData[i].subkey+'" target="_blank"><i class="fa fa-download clickable downloadTrigger" data-id="' + i + '"></i></a></td>';
+            tableRows += '<td class="text-center"><a href="http://localhost:5000/checkpoint/{{checkpoint.id}}/generate_carla_script_xml/'+listData[i].subkey+'" target="_blank"><i class="fa fa-download clickable downloadTrigger" data-id="' + i + '"></i></a></td>';
+            tableRows += "</tr>";
+            
+          }
+
+        }
+
+        if( tableRows ) {
+          aux += '<tr>';
+          aux += '<th>Name</th>';
+          // aux += "<th>Checkpoint Type</th>";
+          // aux += "<th>Time of the Day</th>";
+          aux += '<th class="text-center w-25">Details</th>';
+          aux += '<th class="text-center w-25">Download Script</th>';
+          aux += '<th class="text-center w-25">Download XML</th>';
+          aux += '</tr>';
+
+        }
+
+        $("#testcases").html( aux + tableRows ); // Replace the table body content
+      
+      }
+
+      if( listData.length > 0 ) {
+
+        // Render the initial table rows
+        renderTableRows(1);
+
+        $("#no-records-message").hide();
+        $("#pagination-container").show();
+      
+      } else {
+
+       $("#no-records-message").show();
+       $("#pagination-container").hide();
+       
+      }
+
+      // Initialize Bootstrap pagination
+      $('.pagination').on('click', 'a.page-link:not([aria-label])', function(e) {
+
+        e.preventDefault();
+        
+        var page = parseInt($(this).text()); // Get the page number from the clicked link
+        
+        if( page !== currentPage ) {
+
+          currentPage = page;
+
+          renderTableRows( currentPage ); // Render the table rows for the clicked page
+
+        }
+      
+      });
+
+      // Handle previous button click event
+      $('.pagination').on('click', 'a.page-link[aria-label="Previous"]', function(e) {
+       
+        e.preventDefault();
+
+        if (currentPage > 1) { // If the current page is not the first page
+
+          currentPage--; // Decrease the current page by 1
+          
+          renderTableRows( currentPage ); // Fetch data for the new page
+        
+        }
+
+      });
+
+      // Handle next button click event
+      $('.pagination').on('click', 'a.page-link[aria-label="Next"]', function(e) {
+        
+        e.preventDefault();
+
+        if (currentPage < totalPages) { // If the current page is not the last page
+        
+          currentPage++; // Increase the current page by 1
+        
+          renderTableRows(currentPage); // Fetch data for the new page
+        
+        }
+
+      });
+
+      $('#contextTreeTrigger').click(function() {
+        
+        $('#contextTree').modal('show');
+
+      });
+
+      $('#inputTreeTrigger').click(function() {
+        
+        $('#inputTree').modal('show');
+
+      });
+
+      $('#outputTreeTrigger').click(function() {
+        
+        $('#outputTree').modal('show');
+
+      });
+
+      $('.statusTrigger').click(function() {
+        
+        const process = processes[ parseInt( $(this).data("id") )];
+
+        $('.loading-message').text( process.message );
+
+        $('#statusLoading').modal('show');
+
+        $.ajax({
+          url: process.url,  // Replace with your API endpoint
+          method: 'GET',  // Replace with the HTTP method you want to use
+          success: function(response) { },
+
+          error: function(xhr, status, error) { 
+
+            $('.loading-message').text( error );
+
+          }
+
+        });
+
+        setTimeout(function () { window.location.href = '/checkpoint/{{checkpoint.id}}';  }, 1000); // Add a delay for demonstration purposes
+
+      });
+
+      $(document).on('click', '.detailsTrigger', function() {
+        
+        var data = listData[ parseInt( $(this).data("id") ) ];
+
+        if( data ) {
+
+          $("#showDetailsTitle").text( "Test Case " + data.subkey );
+
+          $("#testCaseContext").html( renderTestCaseDetails( "Context", data.contextDict ) );
+
+          $("#testCaseInput").html( renderTestCaseDetails( "Input", data.inputDict ) );
+
+        }
+
+        $('#showDetails').modal('show');
+
+      } );
+
+      function renderTestCaseDetails( name, data ) { 
+
+        var tableRows = "";
+        var aux = "";
+
+        for ( var key in data ) {
+
+          if ( data.hasOwnProperty( key ) ) {
+
+            tableRows += '<tr>';
+            tableRows += '<td class="w-50" style="font-style: italic;" >' + key + ': </td>';
+            tableRows += '<td>' + data[key] + '</td>';
+            tableRows += '</tr>';
+
+          }
+
+        }
+
+        aux = '<tr colspan="2"><th><h5>'+ name + '</h5></th></tr>';
+
+        return aux + tableRows;
+
+      }
+    
+    });
+
+  </script>
+</body>
+</html>

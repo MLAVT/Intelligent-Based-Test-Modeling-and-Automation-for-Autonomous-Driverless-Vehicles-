@@ -1,0 +1,120 @@
+{
+    "name": "Input",
+    "children": [
+        {
+            "name": "Traffic",
+            "children": [
+                {
+                    "name": "Stationary Objects",
+                    "children": [
+                        {
+                            "name": "Signs and Signals",
+                            "children": [
+                                {
+                                    "name": "Traffic Signs",
+                                    "children": [
+                                        {
+                                            "name": "Stop Sign",
+                                            "value": "no"
+                                        },
+                                        {
+                                            "name": "Yield Sign",
+                                            "value": "no"
+                                        },
+                                       
+                                        {
+                                            "name": "Pedestrian Crossing Sign",
+                                            "value": "yes"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "Warning Signs",
+                                    "children": [
+                                        {
+                                            "name": "Sharp Turn",
+                                            "value": "no"
+                                        },
+                                        {
+                                            "name": "Slippery Road",
+                                            "value": "no"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Road Markings",
+                            "children": [
+                                {
+                                    "name": "Types",
+                                    "children": [
+                                        {
+                                            "name": "Crosswalks",
+                                            "value": "yes"
+                                        },
+                                        {
+                                            "name": "Lane Dividers",
+                                            "value": "yes"
+                                        },
+                                        {
+                                            "name": "Pedestrian Pathways",
+                                            "value": "no"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Weather",
+            "children": [
+                {
+                    "name": "Forecast",
+                    "children": [
+                       
+                        {
+                            "name": "Rainy",
+                            "value": "yes"
+                        },
+                        {
+                            "name": "Overcast",
+                            "value": "yes"
+                        }
+                       
+                    ]
+                },
+                {
+                    "name": "Day Type",
+                    "children": [
+                        {
+                            "name": "Night",
+                            "value": "no"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Scenes",
+            "children": [
+                {
+                    "name": "Scene Types",
+                    "children": [
+                        {
+                            "name": "Urban",
+                            "value": "yes"
+                        },
+                        {
+                            "name": "Highway",
+                            "value": "no"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

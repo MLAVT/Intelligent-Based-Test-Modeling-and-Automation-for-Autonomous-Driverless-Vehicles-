@@ -1,0 +1,105 @@
+{
+    "name": "Context",
+    "children": [
+        {
+            "name": "Detected Objects",
+            "children": [
+                {
+                    "name": "person",
+                    "value": "yes"
+                },
+                {
+                    "name": "car",
+                    "value": "yes"
+                },
+                {
+                    "name": "traffic light",
+                    "value": "yes"
+                },
+                {
+                    "name": "fire hydrant",
+                    "value": "no"
+                },
+                {
+                    "name": "bus",
+                    "value": "no"
+                },
+                {
+                    "name": "truck",
+                    "value": "no"
+                },
+                {
+                    "name": "bicycle",
+                    "value": "no"
+                },
+                {
+                    "name": "parking space",
+                    "value": "no"
+                }
+            ]
+        },
+        {
+            "name": "Day",
+            "children": [
+                {
+                    "name": "night",
+                    "value": "no"
+                },
+                {
+                    "name": "daytime",
+                    "value": "yes"
+                },
+                {
+                    "name": "dawn_or_dusk",
+                    "value": "no"
+                }
+            ]
+        },
+        {
+            "name": "Intersection",
+            "children": [
+                {
+                    "name": "1way",
+                    "value": "no"
+                },
+                {
+                    "name": "2way",
+                    "value": "no"
+                },
+                {
+                    "name": "3way",
+                    "value": "no"
+                },
+                {
+                    "name": "4way",
+                    "value": "yes"
+                },
+                {
+                    "name": "non-intersection",
+                    "value": "no"
+                }
+            ]
+        },
+        {
+            "name": "Traffic Light",
+            "children": [
+                {
+                    "name": "traffic_light_green",
+                    "value": "yes"
+                },
+                {
+                    "name": "traffic_light_yellow",
+                    "value": "no"
+                },
+                {
+                    "name": "traffic_light_red",
+                    "value": "no"
+                },
+                {
+                    "name": "traffic_light_none",
+                    "value": "no"
+                }
+            ]
+        }
+    ]
+}
